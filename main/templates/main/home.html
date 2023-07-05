@@ -37,7 +37,7 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                         {% for st in stu %}
                         <tr>
                             <td>{{st.id}}</td>
@@ -45,8 +45,8 @@
                             <td>{{st.email}}</td>
                             <td>{{st.password}}</td>
                             <td>
-                                <input type="button" data-sid="{{st.id}}" value="Edit" class="btn btn-warning btn-sm">
-                                <input type="button" data-sid="{{st.id}}" value="Delete" class="btn btn-danger btn-sm">
+                                <input type="button" data-sid="{{st.id}}" value="Edit" class="btn btn-warning btn-sm btn-edit">
+                                <input type="button" data-sid="{{st.id}}" value="Delete" class="btn btn-danger btn-sm btn-delete" onclick="d(this)">
                             </td>
                         </tr>
                         {% endfor %}
