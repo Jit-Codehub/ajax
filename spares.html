@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form method="post" id="modal-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" class="form-control" id="modalName" name="modalName" placeholder="Name*" required>
+        </div>
+
+        <div class="form-group">
+            <input id="phone" type="tel" name="modalPhone" class="form-control" placeholder="Mobile no.*" size="50"
+                required />
+        </div>
+
+
+        <div class="form-group">
+            <input type="email" class="form-control" id="modalEmail" name="modalEmail" placeholder="Email">
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Quantity" aria-label="Quantity" name="quantity">
+        </div>
+
+        <div class="form-group">
+            <textarea class="form-control" id="modalMessage" name="modalMessage" rows="2"
+                placeholder="Requirement Details"></textarea>
+        </div>
+
+        <input type="hidden" id="modalProductName" name="modalProductName" value="">
+
+        <button type="submit" class="btn btn-lg btn-block" style="background-color: var(--primary-bg); color: white;" onclick="submitModalForm(event)">Send</button>
+    </form>
+
+</body>
+
+
+
+<!-- script k bina jquery use nhi kr skte or ye jquery k code se phle likhi hono chahiye tabhi jquery kaam kregi -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+<script>
+    function submitModalForm(event) {
+        event.preventDefault();  // Preventing default form submission behavior
+        console.log("I am in script")
+        // Collecting form data
+        const phoneInputField = document.querySelector("#phone");
+        const phoneNumber = phoneInput.getNumber();
+        const countryCode = phoneInput.getSelectedCountryData().dialCode;
+        var formData = new FormData(document.getElementById("modal-form"));
+        formData.append("country_code", countryCode);
+        
+
+        console.log(phoneNumber); // Formatted phone number with country code
+        console.log(countryCode); //
+        let name = $("#modalName").val();
+        let phone = $("#phone").val();
+        console.log(name)
+        if (name == ""){
+            $("#response-text").text("Name is missing").css("color", "red")
+            return;
+        }else if (phone == ""){
+            $("#response-text").text("Mobile number is missing").css("color", "red")
+            return;
+        }
+        // AJAX request
+        console.log('i am above ajax')
+        $.ajax({
+            url: "/quick-note/",
+            type: "POST",
+            data: formData,
+            processData: false,   // Stops jQuery from processing the FormData object
+            contentType: false,   // contentType set to false to allow the browser to automatically set the correct content type based on the FormData object.
+            success: function(response) {
+                $("#response-text").text("Enquiry Sent").css("color", "green")
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX request failed:');
+                console.log('Status: ' + textStatus);
+                console.log('Error Thrown: ' + errorThrown);
+                console.log('Response Text: ' + jqXHR.responseText);
+            }
+        });
+    }
+</script>
+
+
+<!-- jquery GET REQUEST EMAMPLE -->
+<script>
+    $.ajax({
+        url: 'example.com/api/data',
+        type: 'GET',
+        data: { param1: 'value1', param2: 'value2' },
+        success: function(response) {
+            // Handle the response
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            // Handle the error
+        }
+    });
+</script>
+
+
+<!-- Using $.get() shorthand: -->
+<script>
+    $.get('example.com/api/data', { param1: 'value1', param2: 'value2' }, function(response) {
+    // Handle the response
+    })
+    .done(function() {
+        // Code to execute if the request is successful
+    })
+    .fail(function(xhr, textStatus, errorThrown) {
+        // Code to execute if the request fails
+    });
+
+</script>
+
+
+<!-- Using $.post() shorthand: -->
+<script>
+    $.post('example.com/api/data', { param1: 'value1', param2: 'value2' }, function(response) {
+    // Handle the response
+    })
+    .done(function() {
+        // Code to execute if the request is successful
+    })
+    .fail(function(xhr, textStatus, errorThrown) {
+        // Code to execute if the request fails
+    });
+
+</script>
+
+</html>
